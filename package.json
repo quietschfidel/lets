@@ -1,0 +1,16 @@
+{
+  "name": "@tklae/project-cheat-sheet",
+  "version": "0.0.1",
+  "description": "",
+  "dependencies": {
+    "chalk": "^2.4.2"
+  },
+  "scripts": {
+    "build": "npx tsc",
+    "run": "npm run build && node ./dist/main.js"
+},
+  "devDependencies": {
+    "@types/node": "^12.7.12",
+    "typescript": "^3.6.3"
+  }
+}
