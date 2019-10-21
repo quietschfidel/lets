@@ -5,7 +5,7 @@ import * as fileUtils from "./file_utils";
 console.info(chalk.green("Welcome to pcs!"));
 
 const configurationFilepaths: string[] =
-  fileUtils.resolveConfigurationPaths(
+  fileUtils.onlyDirectoriesContainingFile(
     fileUtils.resolveParents(
       fileUtils.resolveWorkingDirectory()));
 

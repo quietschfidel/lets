@@ -17,11 +17,9 @@ export function resolveParents(sourcePath: string): string[] {
   return discoveredPaths;
 }
 
-export function resolveConfigurationPaths(paths: string[]): string[] {
-  return paths.map((pathWithoutConfigFilename) => {
-    return buildConfigPath(pathWithoutConfigFilename);
-  }).filter((pathWithConfigFilename) => {
-    return fs.existsSync(pathWithConfigFilename);
+export function onlyDirectoriesContainingFile(paths: string[], filename: string): string[] {
+  return paths.filter((possibleConfigurationPath) => {
+    return fs.existsSync(path.join(possibleConfigurationPath, filename));
   });
 }
 
@@ -31,8 +29,4 @@ function hasParent(somePath: string): boolean {
 
 function getParent(somePath: string): string {
   return path.resolve(somePath, "..");
-}
-
-function buildConfigPath(directoryPath: string): string {
-  return path.join(directoryPath, ".pcs.yml");
 }
