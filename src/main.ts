@@ -7,7 +7,7 @@ console.info(chalk.green("Welcome to pcs!"));
 const configurationFilepaths: string[] =
   fileUtils.onlyDirectoriesContainingFile(
     fileUtils.resolveParents(
-      fileUtils.resolveWorkingDirectory()));
+      fileUtils.resolveWorkingDirectory()), ".pcs.yml");
 
 if (configurationFilepaths.length) {
   console.info(chalk.green("\nFound the following possible configuration files:"));
