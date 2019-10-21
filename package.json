@@ -6,9 +6,10 @@
     "chalk": "^2.4.2"
   },
   "scripts": {
-    "build": "npx tsc",
+    "build": "npm run lint && npm run test && npx tsc",
     "run": "npm run build && node ./dist/main.js",
-    "test": "jest"
+    "test": "jest",
+    "lint": "tslint -c tslint.json 'src/**/*.ts'"
   },
   "devDependencies": {
     "@types/jest": "^24.0.19",
@@ -17,6 +18,7 @@
     "jest": "^24.9.0",
     "mock-fs": "^4.10.1",
     "ts-jest": "^24.1.0",
+    "tslint": "^5.20.0",
     "typescript": "^3.6.3"
   }
 }

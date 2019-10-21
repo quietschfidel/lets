@@ -6,7 +6,7 @@ export interface Configuration {
 
 export interface Commands extends Array<Command> {}
 
-export Command {
+export interface Command {
   readonly run: string;
   readonly description?: string;
 }
