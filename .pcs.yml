@@ -1,0 +1,10 @@
+commands:
+  build:
+    do: pnpm run build
+    description: Build the project cheat sheet project.
+  run:
+    do: pnpm run run
+    description: Build and run the project.
+  test:
+    do: pnpm run test
+    description: Test the project cheat sheet project.
