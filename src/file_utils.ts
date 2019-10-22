@@ -18,8 +18,10 @@ export function resolveParents(sourcePath: string): string[] {
 }
 
 export function onlyDirectoriesContainingFile(paths: string[], filename: string): string[] {
-  return paths.filter((possibleConfigurationPath) => {
-    return fs.existsSync(path.join(possibleConfigurationPath, filename));
+  return paths.map((pathWithoutConfigFilename) => {
+    return path.join(pathWithoutConfigFilename, filename);
+  }).filter((pathWithConfigFilename) => {
+    return fs.existsSync(pathWithConfigFilename);
   });
 }
 

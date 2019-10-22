@@ -1,16 +1,16 @@
-import * as mock from "mock-fs";
+import * as mockfs from "mock-fs";
 import * as process from "process";
 import * as fileUtils from "./file_utils";
 
 beforeAll(() => {
-  mock({
+  mockfs({
     "/path/with/config/.pcs.yml": "any yaml content",
     "/path/without/config": {/** empty directory */}
   });
 });
 
 afterAll(() => {
-  mock.restore();
+  mockfs.restore();
 });
 
 describe("resolveWorkingDirectory", () => {
@@ -18,7 +18,7 @@ describe("resolveWorkingDirectory", () => {
     const spy = jest.spyOn(process, "cwd");
     spy.mockReturnValue("/current/working/directory");
 
-    expect(fileUtils.resolveWorkingDirectory()).toBe("/current/working/directory");
+    expect(fileUtils.resolveWorkingDirectory()).toBe("/current/working/directoryFAIL");
   });
 });
 
@@ -51,7 +51,7 @@ describe("resolveConfigurationPaths", () => {
       ".pcs.yml"
     )).toStrictEqual(
       [
-        "/path/with/config",
+        "/path/with/config/.pcs.yml",
       ]
     );
   });
