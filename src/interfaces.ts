@@ -14,3 +14,11 @@ export interface Command {
   readonly run: string;
   readonly description?: string;
 }
+
+export interface CommandsWithMetadata {
+  [commandName: string]: CommandWithMetadata;
+}
+
+export interface CommandWithMetadata extends Command {
+  readonly directory: string;
+}

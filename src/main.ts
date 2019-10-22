@@ -1,6 +1,10 @@
 #!/usr/bin/env node
 import chalk from "chalk";
+import {CommandLibrary} from "./commandLibrary";
+import * as configurationReader from "./configurationReader";
+import {print, printCommands, printList, printSuccess} from "./consolePrinter";
 import * as fileUtils from "./fileUtils";
+import {YamlConfigurations} from "./interfaces";
 
 console.info(chalk.green("Welcome to pcs!"));
 
@@ -11,8 +15,11 @@ const configurationFilepaths: string[] =
       fileUtils.resolveWorkingDirectory()), configurationFilename);
 
 if (configurationFilepaths.length) {
-  console.info(chalk.green("\nFound the following possible configuration files:"));
-  configurationFilepaths.forEach((configurationPath) => {
-    console.info(chalk.green(`- ${configurationPath}`));
-  });
+  printSuccess("\nFound the following possible configuration files:");
+  printList(configurationFilepaths);
+
+  print("\nListing all commands:");
+  const configurations: YamlConfigurations = configurationReader.readConfigurations(configurationFilepaths);
+  const commandLibrary = new CommandLibrary(configurations);
+  printCommands(commandLibrary.getAllCommands());
 }
