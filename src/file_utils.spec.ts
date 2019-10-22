@@ -18,7 +18,7 @@ describe("resolveWorkingDirectory", () => {
     const spy = jest.spyOn(process, "cwd");
     spy.mockReturnValue("/current/working/directory");
 
-    expect(fileUtils.resolveWorkingDirectory()).toBe("/current/working/directoryFAIL");
+    expect(fileUtils.resolveWorkingDirectory()).toBe("/current/working/directory");
   });
 });
 
