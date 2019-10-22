@@ -1,13 +1,13 @@
-export interface Configurations {
-  [directory: string]: Configuration;
+export interface YamlConfigurations {
+  [directoryPath: string]: YamlConfiguration;
 }
 
-export interface Configuration {
+export interface YamlConfiguration {
   readonly commands: Commands;
 }
 
 export interface Commands {
-  [key: string]: Command;
+  [commandName: string]: Command;
 }
 
 export interface Command {

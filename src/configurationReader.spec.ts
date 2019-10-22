@@ -1,7 +1,7 @@
 import * as fs from "fs";
 import * as mockfs from "mock-fs";
-import * as configurationReader from "./configuration_reader";
-import {Configuration, Configurations} from "./interfaces";
+import * as configurationReader from "./configurationReader";
+import {YamlConfiguration, YamlConfigurations} from "./interfaces";
 
 beforeAll(() => {
   const ymlContent = `
@@ -25,7 +25,7 @@ afterAll(() => {
 
 describe("read one configuration", () => {
   test("should read all commands in the given configuration", () => {
-    const configuration: Configuration = configurationReader.readConfiguration("/some/config/.pcs.yml");
+    const configuration: YamlConfiguration = configurationReader.readConfiguration("/some/config/.pcs.yml");
 
     expect(configuration.commands.someCommand1.run).toBe("run something");
     expect(configuration.commands.someCommand1.description).toBe("Runs something");
@@ -37,7 +37,7 @@ describe("read one configuration", () => {
 
 describe("read multiple configurations", () => {
   test("should out them into a map with 'folder name -> configuration' mapping", () => {
-    const configurations: Configurations = configurationReader.readConfigurations(["/some/config/.pcs.yml", "/some/other/config/.pcs.yml"]);
+    const configurations: YamlConfigurations = configurationReader.readConfigurations(["/some/config/.pcs.yml", "/some/other/config/.pcs.yml"]);
 
     expect(configurations["/some/config"].commands.someCommand1.run).toBe("run something");
     expect(configurations["/some/other/config"].commands.someCommand1.run).toBe("run something");

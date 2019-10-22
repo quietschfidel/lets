@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import chalk from "chalk";
-import * as fileUtils from "./file_utils";
+import * as fileUtils from "./fileUtils";
 
 console.info(chalk.green("Welcome to pcs!"));
 

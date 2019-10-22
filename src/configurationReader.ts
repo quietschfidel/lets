@@ -1,10 +1,10 @@
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as path from "path";
-import {Configuration, Configurations} from "./interfaces";
+import {YamlConfiguration, YamlConfigurations} from "./interfaces";
 
-export function readConfigurations(paths: string[]): Configurations {
-  const configurations: Configurations = {};
+export function readConfigurations(paths: string[]): YamlConfigurations {
+  const configurations: YamlConfigurations = {};
   paths.forEach((currentPath) => {
     const workingDirectory: string = path.dirname(currentPath);
     configurations[workingDirectory] = readConfiguration(currentPath);
@@ -12,6 +12,6 @@ export function readConfigurations(paths: string[]): Configurations {
   return configurations;
 }
 
-export function readConfiguration(fullConfigurationPath: string): Configuration {
+export function readConfiguration(fullConfigurationPath: string): YamlConfiguration {
   return yaml.safeLoad(fs.readFileSync(fullConfigurationPath, "utf8"));
 }

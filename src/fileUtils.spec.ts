@@ -1,6 +1,6 @@
 import * as mockfs from "mock-fs";
 import * as process from "process";
-import * as fileUtils from "./file_utils";
+import * as fileUtils from "./fileUtils";
 
 beforeAll(() => {
   mockfs({
