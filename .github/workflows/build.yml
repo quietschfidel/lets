@@ -20,6 +20,6 @@ jobs:
     - name: pnpm install and test
       run: |
         pnpm install
-        pnpm build
+        pnpm run build
       env:
         CI: true
