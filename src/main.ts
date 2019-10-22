@@ -4,10 +4,11 @@ import * as fileUtils from "./file_utils";
 
 console.info(chalk.green("Welcome to pcs!"));
 
+const configurationFilename = ".pcs.yml";
 const configurationFilepaths: string[] =
   fileUtils.onlyDirectoriesContainingFile(
     fileUtils.resolveParents(
-      fileUtils.resolveWorkingDirectory()), ".pcs.yml");
+      fileUtils.resolveWorkingDirectory()), configurationFilename);
 
 if (configurationFilepaths.length) {
   console.info(chalk.green("\nFound the following possible configuration files:"));

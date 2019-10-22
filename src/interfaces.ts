@@ -1,10 +1,14 @@
-export interface Configurations extends Array<Configuration> {}
+export interface Configurations {
+  [directory: string]: Configuration;
+}
 
 export interface Configuration {
   readonly commands: Commands;
 }
 
-export interface Commands extends Array<Command> {}
+export interface Commands {
+  [key: string]: Command;
+}
 
 export interface Command {
   readonly run: string;
