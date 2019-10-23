@@ -21,5 +21,6 @@ jobs:
       run: |
         pnpm install
         pnpm run build
+      shell: pwsh
       env:
         CI: true
