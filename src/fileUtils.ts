@@ -17,7 +17,7 @@ export function resolveParents(sourcePath: string): string[] {
   return discoveredPaths;
 }
 
-export function onlyDirectoriesContainingFile(paths: string[], filename: string): string[] {
+export function onlyDirectoriesContainingFile(filename: string, paths: string[]): string[] {
   return paths.map((pathWithoutConfigFilename) => {
     return path.join(pathWithoutConfigFilename, filename);
   }).filter((pathWithConfigFilename) => {

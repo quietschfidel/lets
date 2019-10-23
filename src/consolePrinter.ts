@@ -9,6 +9,10 @@ export function printSuccess(text: string): void {
   print(text, chalk.green);
 }
 
+export function printError(text: string): void {
+  print(text, chalk.red);
+}
+
 export function printList(items: string[]): void {
   items.forEach((item) => {
     print(`  - ${item}`);

@@ -20,5 +20,11 @@ export interface CommandsWithMetadata {
 }
 
 export interface CommandWithMetadata extends Command {
+  readonly name: string;
   readonly directory: string;
+}
+
+export interface CommandSearchResult {
+  readonly exactMatch?: CommandWithMetadata;
+  readonly suggestions?: string[];
 }

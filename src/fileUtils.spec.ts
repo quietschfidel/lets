@@ -47,8 +47,8 @@ describe("resolveParents", () => {
 describe("resolveConfigurationPaths", () => {
   test("should give me all the paths which contain a config file called .pcs.yml", () => {
     expect(fileUtils.onlyDirectoriesContainingFile(
+      ".pcs.yml",
       ["/path/with/config", "/path/without/config"],
-      ".pcs.yml"
     )).toStrictEqual(
       [
         "/path/with/config/.pcs.yml",
@@ -57,8 +57,8 @@ describe("resolveConfigurationPaths", () => {
   });
   test("should return empty array if no directories contain a configuration file", () => {
     expect(fileUtils.onlyDirectoriesContainingFile(
+      ".pcs.yml",
       ["/path/without/config"],
-      ".pcs.yml"
     )).toStrictEqual(
       []
     );
