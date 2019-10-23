@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import chalk from "chalk";
 import {CommandLibrary} from "./commandLibrary";
+import {runCommand} from "./commandRunner";
 import * as configurationReader from "./configurationReader";
 import {print, printCommands, printError, printList, printSuccess} from "./consolePrinter";
 import * as fileUtils from "./fileUtils";
@@ -21,7 +22,10 @@ function run(userInput: string) {
   const searchResult = commandLibrary.searchCommand(userInput);
 
   if (searchResult.exactMatch !== undefined) {
-    print(`Found command ${searchResult.exactMatch.name}`);
+    print(`Found command '${searchResult.exactMatch.name}'`);
+    runCommand(searchResult.exactMatch).catch((error) => {
+      printError(`An unexpected error occured while running '${searchResult.exactMatch.name}'.\n`, error);
+    });
   } else if (searchResult.suggestions !== undefined && searchResult.suggestions.length > 0) {
     printError(`Could not find command '${userInput}'.\n`);
     print("Did you mean?");

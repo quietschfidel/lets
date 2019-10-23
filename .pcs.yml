@@ -1,10 +1,15 @@
 commands:
+  helloWorld:
+    run: |
+      echo "Hello World!"
+      echo "Hello World again!"
+    description: Displays "Hello World!"
   build:
-    do: pnpm run build
+    run: pnpm run build
     description: Build the project cheat sheet project.
   run:
-    do: pnpm run run
+    run: pnpm run start
     description: Build and run the project.
   test:
-    do: pnpm run test
+    run: pnpm run test
     description: Test the project cheat sheet project.

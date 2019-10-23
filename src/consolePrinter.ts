@@ -2,15 +2,15 @@ import chalk from "chalk";
 import {CommandsWithMetadata} from "./interfaces";
 
 export function print(text: string, chalkModifier?: (text: string) => void): void {
-    console.log(chalkModifier === undefined ? text : chalkModifier(text));
+  console.log(chalkModifier === undefined ? text : chalkModifier(text));
 }
 
 export function printSuccess(text: string): void {
   print(text, chalk.green);
 }
 
-export function printError(text: string): void {
-  print(text, chalk.red);
+export function printError(text: string, error?: any): void {
+  console.error(chalk.red(text, error));
 }
 
 export function printList(items: string[]): void {
