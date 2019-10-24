@@ -1,24 +1,18 @@
 #!/usr/bin/env node
-import chalk from "chalk";
 import {CommandLibrary} from "./commandLibrary";
 import {runCommand} from "./commandRunner";
 import * as configurationReader from "./configurationReader";
 import {print, printCommands, printError, printList, printSuccess} from "./consolePrinter";
 import * as fileUtils from "./fileUtils";
 import {YamlConfigurations} from "./interfaces";
+import {handleTabCompletion} from "./tabCompleter";
 
-console.info(chalk.green("Welcome to pcs!\n"));
-const cliCommandInput = process.argv[2];
-run(cliCommandInput);
+export async function run(userInput: string) {
+  const commandLibrary = loadCommandsOrQuit();
 
-function run(userInput: string) {
+  // tab completion will stop here until it's completely finished and then call pcs again
+  await handleTabCompletion(userInput, commandLibrary);
 
-  const commandLibrary = loadConfigurations();
-
-  if (!userInput) {
-    showAllCommands(commandLibrary);
-    return;
-  }
   const searchResult = commandLibrary.searchCommand(userInput);
 
   if (searchResult.exactMatch !== undefined) {
@@ -36,7 +30,7 @@ function run(userInput: string) {
   }
 }
 
-function loadConfigurations(): CommandLibrary {
+function loadCommandsOrQuit(): CommandLibrary {
   const configurationFilename = ".pcs.yml";
 
   const configurationFilepaths: string[] =
@@ -44,15 +38,12 @@ function loadConfigurations(): CommandLibrary {
       configurationFilename, fileUtils.resolveParents(
         fileUtils.resolveWorkingDirectory()));
   if (configurationFilepaths.length) {
-
-    // printSuccess("\nFound the following possible configuration files:");
-    // printList(configurationFilepaths);
     const configurations: YamlConfigurations = configurationReader.readConfigurations(configurationFilepaths);
     return new CommandLibrary(configurations);
   } else {
-    printError(`
-    Could not find any configuration files called ${configurationFilename} in the directory tree.
-    Please see the project's Readme for instructions`);
+    process.exit();
+    // throw new Error(`Could not find any configuration files called ${configurationFilename} in the directory tree.
+    // Please see the project's Readme for instructions`);
   }
 }
 

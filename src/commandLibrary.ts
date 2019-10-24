@@ -30,6 +30,10 @@ export class CommandLibrary {
     return this.allCommands;
   }
 
+  public getAllCommandNames(): string[] {
+    return Object.keys(this.getAllCommands());
+  }
+
   public searchCommand(commandSearchString: string): CommandSearchResult {
     const suggestions: string[] = [];
     let exactMatch: CommandWithMetadata;

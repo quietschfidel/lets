@@ -45,6 +45,20 @@ describe("getAllCommands", () => {
   });
 });
 
+describe("getAllCommandNames", () => {
+  test("should return names of all commands from all configurations", () => {
+    const allCommandNames = commandLibrary.getAllCommandNames();
+
+    expect(allCommandNames.length).toBe(5);
+    expect(allCommandNames).toEqual(expect.arrayContaining([
+      "command1FromConfiguration1",
+      "command2FromConfiguration1",
+      "command1FromConfiguration2",
+      "command2FromConfiguration2",
+      "duplicateCommand"]));
+  });
+});
+
 describe("searchCommand", () => {
   test("should return the Command if it's an exact match", () => {
     const searchResult = commandLibrary.searchCommand("command1FromConfiguration2");

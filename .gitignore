@@ -1,6 +1,9 @@
 # Build directories
 /dist
 
+# Normal npm package-lock as we're using pnpm
+package-lock.json
+
 # Logs
 logs
 *.log
@@ -63,7 +66,7 @@ typings/
 # next.js build output
 .next
 
-# intellij files 
+# intellij files
 .idea
 *.iml
 *.ipr
