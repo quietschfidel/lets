@@ -10,7 +10,7 @@ export function printSuccess(text: string): void {
 }
 
 export function printError(text: string, error?: any): void {
-  console.error(chalk.red(text, error));
+  console.error(error ? chalk.red(text, error) : chalk.red(text));
 }
 
 export function printList(items: string[]): void {
