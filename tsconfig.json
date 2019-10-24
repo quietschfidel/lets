@@ -7,6 +7,6 @@
     "resolveJsonModule": true
   },
   "include": [
-    "./src/main.ts"
+    "./src/cli.ts"
   ]
 }
