@@ -1,8 +1,9 @@
 # Build directories
 /dist
 
-# Normal npm package-lock as we're using pnpm
+# npm and yarn package-lock as we're using pnpm
 package-lock.json
+yarn.lock
 
 # Logs
 logs
