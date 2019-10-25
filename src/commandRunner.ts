@@ -1,4 +1,4 @@
-import {execSync} from "child_process";
+import {spawnSync} from "child_process";
 import {CommandWithMetadata} from "./interfaces";
 
 export async function runCommand(command: CommandWithMetadata) {
@@ -8,9 +8,10 @@ export async function runCommand(command: CommandWithMetadata) {
   }
 
   for (const currentInstruction of listOfInstructions) {
-    execSync(currentInstruction, {
+    spawnSync(currentInstruction, process.argv.slice(3), {
       cwd: command.directory,
       stdio: "inherit",
+      shell: true,
       env: {
         ...process.env,
       }

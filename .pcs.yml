@@ -1,13 +1,4 @@
 commands:
-  helloWorld:
-    run: |
-      echo "Hello World!"
-      echo "Hello World again!"
-    description: Displays "Hello World!"
-  interactiveCommand:
-    run: |
-      bash -c 'read -p"Please type some text: " myVariable && echo "You typed \"${myVariable}\""'
-      echo "If you can see this we've confirmed that the instruction after the interactive command is also run..."
   build:
     run: pnpm run build
     description: Build the project cheat sheet project.
@@ -17,3 +8,22 @@ commands:
   test:
     run: pnpm run test
     description: Test the project cheat sheet project.
+  testCommand_HelloWorld:
+    run: echo "Hello World!"
+    description: Displays "Hello World!"
+  testCommand_HelloWorldMultiline:
+    run: |
+      echo "Hello World!"
+      echo "Hello World again!"
+    description: Displays "Hello World! twice"
+  testCommand_Interactive:
+    run: |
+      bash -c 'read -p"Please type some text: " myVariable && echo "You typed \"${myVariable}\""'
+      echo "If you can see this we've confirmed that the instruction after the interactive command is also run..."
+    description: A command that reads and displays some user input and then runs a second instruction.
+  testCommand__UseParameters:
+    run: ./testScripts/listParameters.sh
+    description: |
+      A command that calls another script which lists all parameters passed into it. Can be used to verify that
+      parameters passed into pcs are properly passed onwards into scripts. Example call:
+      'pcs testCommand_UserParameters parameter1 parameter2'

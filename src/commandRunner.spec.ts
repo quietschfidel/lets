@@ -7,9 +7,11 @@ import {CommandWithMetadata} from "./interfaces";
 
 let writeSingleLineToFileCommand: CommandWithMetadata;
 let multiCommand: CommandWithMetadata;
+let parameterCommand: CommandWithMetadata;
 
 let tmpDir;
-let tmpFilePath;
+let logFilePath;
+let parameterLoggerPath;
 let testUuid1;
 let testUuid2;
 let testUuid3;
@@ -18,8 +20,9 @@ beforeAll(() => {
   // Unfortunately, we cannot mock the file system as the commands below are executed outside the node
   // environment and would not respect the file system mock.
   tmpDir = os.tmpdir();
-  tmpFilePath = path.join(tmpDir, "commandRunnerSpec.log");
-  fs.closeSync(fs.openSync(tmpFilePath, "w"));
+  logFilePath = path.join(tmpDir, "commandRunnerSpec.log");
+  parameterLoggerPath = path.join(tmpDir, "parameterLogger.sh");
+  fs.closeSync(fs.openSync(logFilePath, "w"));
 
   testUuid1 = uuidv4();
   testUuid2 = uuidv4();
@@ -37,9 +40,16 @@ beforeAll(() => {
     description: "Writes two uuids to the log file",
     directory: "/tmp"
   };
+  parameterCommand = {
+    name: "writeAllParametersToFile",
+    run: "./parameterLogger.sh",
+    description: "Writes all parameters passed to this command to the log file",
+    directory: "/tmp"
+  };
 });
 afterAll(() => {
-  fs.unlinkSync(tmpFilePath);
+  fs.unlinkSync(logFilePath);
+  fs.unlinkSync(parameterLoggerPath);
 });
 
 describe("runCommand", () => {
@@ -53,5 +63,21 @@ describe("runCommand", () => {
 
     expect(fs.readFileSync("/tmp/commandRunnerSpec.log", "utf8")).toEqual(expect.stringContaining(testUuid2));
     expect(fs.readFileSync("/tmp/commandRunnerSpec.log", "utf8")).toEqual(expect.stringContaining(testUuid3));
+  });
+  test("run parameterized instruction", () => {
+    // create external script
+    fs.writeFileSync(parameterLoggerPath, "echo \"$@\" > commandRunnerSpec.log");
+    fs.chmodSync(parameterLoggerPath, "755");
+
+    process.argv = [
+      "ignoredBecauseThisIsUsuallyTheNodePath",
+      "ignoredBecauseThisIsUsuallyTheNameOfThePCSExecutable",
+      "ignoredBecauseThisIsUsuallyTheNameOfThePCSCommandToRun",
+      "firstRealParameter",
+      "secondRealParameter"
+    ];
+    runCommand(parameterCommand);
+
+    expect(fs.readFileSync("/tmp/commandRunnerSpec.log", "utf8")).toEqual("firstRealParameter secondRealParameter\n");
   });
 });
