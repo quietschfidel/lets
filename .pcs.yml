@@ -4,6 +4,10 @@ commands:
       echo "Hello World!"
       echo "Hello World again!"
     description: Displays "Hello World!"
+  interactiveCommand:
+    run: |
+      bash -c 'read -p"Please type some text: " myVariable && echo "You typed \"${myVariable}\""'
+      echo "If you can see this we've confirmed that the instruction after the interactive command is also run..."
   build:
     run: pnpm run build
     description: Build the project cheat sheet project.
