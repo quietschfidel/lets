@@ -5,69 +5,66 @@ import * as uuidv4 from "uuid/v4";
 import {runCommand} from "./commandRunner";
 import {CommandWithMetadata} from "./interfaces";
 
-let writeSingleLineToFileCommand: CommandWithMetadata;
-let multiCommand: CommandWithMetadata;
-let parameterCommand: CommandWithMetadata;
-
 let tmpDir;
-let logFilePath;
-let parameterLoggerPath;
-let testUuid1;
-let testUuid2;
-let testUuid3;
+let commandRunnerTmpDir;
 
 beforeAll(() => {
   // Unfortunately, we cannot mock the file system as the commands below are executed outside the node
   // environment and would not respect the file system mock.
   tmpDir = os.tmpdir();
-  logFilePath = path.join(tmpDir, "commandRunnerSpec.log");
-  parameterLoggerPath = path.join(tmpDir, "parameterLogger.sh");
-  fs.closeSync(fs.openSync(logFilePath, "w"));
-
-  testUuid1 = uuidv4();
-  testUuid2 = uuidv4();
-  testUuid3 = uuidv4();
-
-  writeSingleLineToFileCommand = {
-    name: "writeUuid1ToFile",
-    run: `echo ${testUuid1} > commandRunnerSpec.log`,
-    description: "Writes a uuid to the log file",
-    directory: "/tmp"
-  };
-  multiCommand = {
-    name: "writeUuid2and3ToFile",
-    run: `echo ${testUuid2} > commandRunnerSpec.log\necho ${testUuid3} >> commandRunnerSpec.log`,
-    description: "Writes two uuids to the log file",
-    directory: "/tmp"
-  };
-  parameterCommand = {
-    name: "writeAllParametersToFile",
-    run: "./parameterLogger.sh",
-    description: "Writes all parameters passed to this command to the log file",
-    directory: "/tmp"
-  };
+  commandRunnerTmpDir = path.join(tmpDir, "commandRunnerTmpDir");
+  fs.mkdirSync(commandRunnerTmpDir, {recursive: true});
 });
+
 afterAll(() => {
-  fs.unlinkSync(logFilePath);
-  fs.unlinkSync(parameterLoggerPath);
+  deleteRecursive(commandRunnerTmpDir);
 });
 
 describe("runCommand", () => {
   test("should execute the command writing output to a file", () => {
+    const testUuid = uuidv4();
+    const writeSingleLineToFileCommand: CommandWithMetadata = {
+      name: "writeSingleUuidToFile",
+      run: `echo ${testUuid} > singleLineToFileCommand.log`,
+      description: "Writes a uuid to the log file",
+      directory: `${commandRunnerTmpDir}`
+    };
+
     runCommand(writeSingleLineToFileCommand);
 
-    expect(fs.readFileSync("/tmp/commandRunnerSpec.log", "utf8")).toEqual(expect.stringContaining(testUuid1));
+    expect(fs.readFileSync(`${commandRunnerTmpDir}/singleLineToFileCommand.log`, "utf8"))
+      .toEqual(expect.stringContaining(testUuid));
   });
   test("run multiple instructions", () => {
+    const testUuid1 = uuidv4();
+    const testUuid2 = uuidv4();
+
+    const multiCommand: CommandWithMetadata = {
+      name: "writeMultipleUuidsToFile",
+      run: `echo ${testUuid1} > multiLineToFileCommand.log\necho ${testUuid2} >> multiLineToFileCommand.log`,
+      description: "Writes two uuids to the log file",
+      directory: `${commandRunnerTmpDir}`
+    };
+
     runCommand(multiCommand);
 
-    expect(fs.readFileSync("/tmp/commandRunnerSpec.log", "utf8")).toEqual(expect.stringContaining(testUuid2));
-    expect(fs.readFileSync("/tmp/commandRunnerSpec.log", "utf8")).toEqual(expect.stringContaining(testUuid3));
+    expect(fs.readFileSync(`${commandRunnerTmpDir}/multiLineToFileCommand.log`, "utf8"))
+      .toEqual(expect.stringContaining(testUuid1));
+    expect(fs.readFileSync(`${commandRunnerTmpDir}/multiLineToFileCommand.log`, "utf8"))
+      .toEqual(expect.stringContaining(testUuid2));
   });
   test("run parameterized instruction", () => {
     // create external script
-    fs.writeFileSync(parameterLoggerPath, "echo \"$@\" > commandRunnerSpec.log");
+    const parameterLoggerPath = path.join(commandRunnerTmpDir, "parameterLogger.sh");
+    fs.writeFileSync(parameterLoggerPath, "echo \"$@\" > parameterCommand.log");
     fs.chmodSync(parameterLoggerPath, "755");
+
+    const parameterCommand: CommandWithMetadata = {
+      name: "writeAllParametersToFile",
+      run: "./parameterLogger.sh",
+      description: "Writes all parameters passed to this command to the log file",
+      directory: `${commandRunnerTmpDir}`
+    };
 
     process.argv = [
       "ignoredBecauseThisIsUsuallyTheNodePath",
@@ -78,6 +75,20 @@ describe("runCommand", () => {
     ];
     runCommand(parameterCommand);
 
-    expect(fs.readFileSync("/tmp/commandRunnerSpec.log", "utf8")).toEqual("firstRealParameter secondRealParameter\n");
+    expect(fs.readFileSync(`${commandRunnerTmpDir}/parameterCommand.log`, "utf8")).toEqual("firstRealParameter secondRealParameter\n");
   });
 });
+
+function deleteRecursive(directoryPath: string) {
+  if (fs.existsSync(directoryPath) ) {
+    fs.readdirSync(directoryPath).forEach((fileName) => {
+      const currentFileOrDirectory = path.join(directoryPath, fileName);
+      if (fs.lstatSync(currentFileOrDirectory).isDirectory()) {
+        deleteRecursive(currentFileOrDirectory);
+      } else {
+        fs.unlinkSync(currentFileOrDirectory);
+      }
+    });
+    fs.rmdirSync(directoryPath);
+  }
+}
