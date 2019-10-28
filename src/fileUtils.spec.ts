@@ -4,7 +4,7 @@ import * as fileUtils from "./fileUtils";
 
 beforeAll(() => {
   mockfs({
-    "/path/with/config/.pcs.yml": "any yaml content",
+    "/path/with/config/.lets.yml": "any yaml content",
     "/path/without/config": {/** empty directory */}
   });
 });
@@ -45,19 +45,19 @@ describe("resolveParents", () => {
 });
 
 describe("resolveConfigurationPaths", () => {
-  test("should give me all the paths which contain a config file called .pcs.yml", () => {
+  test("should give me all the paths which contain a config file called .lets.yml", () => {
     expect(fileUtils.onlyDirectoriesContainingFile(
-      ".pcs.yml",
+      ".lets.yml",
       ["/path/with/config", "/path/without/config"],
     )).toStrictEqual(
       [
-        "/path/with/config/.pcs.yml",
+        "/path/with/config/.lets.yml",
       ]
     );
   });
   test("should return empty array if no directories contain a configuration file", () => {
     expect(fileUtils.onlyDirectoriesContainingFile(
-      ".pcs.yml",
+      ".lets.yml",
       ["/path/without/config"],
     )).toStrictEqual(
       []

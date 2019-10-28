@@ -11,7 +11,7 @@ import {handleTabCompletion} from "./tabCompleter";
 export async function run(userInput: string) {
   const commandLibrary = loadCommandsOrQuit();
 
-  // tab completion will stop here until it's completely finished and then call pcs again
+  // tab completion will stop here until it's completely finished and then call lets again
   await handleTabCompletion(userInput, commandLibrary);
 
   if (userInput !== "help") {
@@ -36,7 +36,7 @@ export async function run(userInput: string) {
 }
 
 function loadCommandsOrQuit(): CommandLibrary {
-  const configurationFilename = ".pcs.yml";
+  const configurationFilename = ".lets.yml";
 
   const configurationFilepaths: string[] =
     fileUtils.onlyDirectoriesContainingFile(

@@ -7,10 +7,10 @@ export function showHelp() {
   helpText.push(chalk.bold("\nProject Cheat Sheet"));
 
   helpText.push("How to use:");
-  helpText.push("  pcs <command>");
-  helpText.push("  pcs add-tab-completion");
-  helpText.push("  pcs remove-tab-completion");
-  helpText.push("  pcs help\n");
+  helpText.push("  lets <command>");
+  helpText.push("  lets add-tab-completion");
+  helpText.push("  lets remove-tab-completion");
+  helpText.push("  lets help\n");
 
   print(helpText.join(`\n`));
 }

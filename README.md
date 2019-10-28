@@ -1,8 +1,9 @@
-# pcs - project cheat sheet
+# `lets` just work
 
-## tl;dr
-pcs is a cheat sheet tool and task runner for the command line that allows running commands 
-defined in simple yaml files within a hierarchical project structure.
+Tired of dipping into the Readme for each project to figure out how to run this thing?
+Wouldn't it be cool to just use the same commands no matter what the underlying tech stack is?
+
+`lets` is a command unifier for multi-stack projects, backed by simple yaml configuration files.
 
 ## Motivation
 We've been working a lot in projects with many different git repositories, mono-repositories 
@@ -11,16 +12,14 @@ Remembering all the different commands that can be run in each folder for runnin
 building or starting the application can become slightly challenging for people who've been 
 there a while but for people joining the project, it's usually a real nightmare.
 
-We therefore want to provide an easy way to provide the possible commands to run within 
-a directory structure.
+We therefore want to provide an easy way to provide the possible commands to run for each project
+folder.
 
 ## Installation instructions
 -> TODO: Will be added after first upload to npm repo
 
 ## Configuration examples
-The whole idea of the project is to simplify 
-
-In the simplest form, just create a file called `pcs.yml` in your project's root directory.
+In the simplest form, just create a file called `.lets.yml` in your project's root directory.
 This file contains a list of commands such as:
 
 ```yaml
@@ -32,8 +31,61 @@ commands:
     run: echo "Hello World again!"
     description: Prints "Hello World again!" on the command line
 ```
-Note that the description is optional but recommended so that people using `pcs help` can easily 
+Note that the description is optional but recommended so that people using `lets help` can easily 
 tell what your commands are doing.
+
+In a more real world example, you would hide your technology specific commands behind the same
+`lets` command names. Let's imagine we have a project with 
+- a Java backend which uses Gradle in `~/yourProject/backend`
+- a React frontend which uses npm in `~/yourProject/frontend`
+
+We could then create the following configuration files to be able to run the same commands
+in all three folders:
+
+`.lets.yml` in `~/yourProject/backend:
+```yaml
+commands:
+    install:
+      run: ./gradlew clean install
+      description: Install backend dependencies
+    test:
+      run: ./gradlew clean test
+      description: Run backend tests
+    start:
+      run: ./gradlew bootRun
+      description: Start the backend
+```
+
+`.lets.yml` in `~/yourProject/frontend:
+```yaml
+commands:
+    install:
+      run: npm install
+      description: Install frontend dependencies
+    test:
+      run: npm run test
+      description: Run frontend tests
+    start:
+      run: npm run start
+      description: Start the frontend
+```
+
+`.lets.yml` in `~/yourProject:
+```yaml
+commands:
+    install:
+      run: ./installBackendAndFrontendDependencies.sh
+      description: Install project dependencies
+    test:
+      run: ./testAll.sh
+      description: Run backend and frontend tests
+    start:
+      run: ./startAll.sh
+      description: Start the backend and frontend
+```
+
+Depending on where you currently are in your project tree, running the same command, e.g. 
+`lets start` will always start the application, either backend, fronted or both in combination.
 
 ### Running more than one instruction within a command
 You can also run multiple instructions but adding line breaks in your configuration:
@@ -66,7 +118,7 @@ commands:
 ```
 and call it via
 ```
-pcs greet World
+lets greet World
 ```
 you will get the following output:
 ```
@@ -104,8 +156,8 @@ checked out is up and running.
 - `pnpm run build` to continuously run everything or just `pnpm run test`/`pnpm run lint` 
 for tests or linting
 - `pnpm run start -- <command>` to test running a command that has to be present in the
-[.pcs.yml](./.pcs.yml)
-- `pnpm link` to "install" pcs as a command line tool with the current state. Make sure to
+[.lets.yml](./.lets.yml)
+- `pnpm link` to "install" lets as a command line tool with the current state. Make sure to
 reload your terminal/open a new terminal for the changes to be effective.
 - `pnpm unlink` to remove the link to the current executable (!Currently does not work, see 
 [this bug report](https://github.com/pnpm/pnpm/issues/1584) for details).

@@ -28,5 +28,5 @@ commands:
     run: ./testScripts/listParameters.sh
     description: |
       A command that calls another script which lists all parameters passed into it. Can be used to verify that
-      parameters passed into pcs are properly passed onwards into scripts. Example call:
-      'pcs testCommand_UserParameters parameter1 parameter2'
+      parameters passed into lets are properly passed onwards into scripts. Example call:
+      'lets testCommand_UserParameters parameter1 parameter2'

@@ -15,15 +15,15 @@ export async function handleTabCompletion(userInput: string, commandLibrary: Com
 
   if (userInput === "add-tab-completion") {
     await tabtab.install({
-      name: "pcs",
-      completer: "pcs"
+      name: "lets",
+      completer: "lets"
     }).catch((err) => console.error(err));
     process.exit(0);
   }
 
   if (userInput === "remove-tab-completion") {
     await tabtab.uninstall({
-      name: "pcs"
+      name: "lets"
     }).catch((err) => console.error(err));
     process.exit(0);
   }

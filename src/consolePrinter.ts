@@ -28,7 +28,7 @@ export function printCommands(commands: CommandsWithMetadata, showSourceDirector
       .replace(/\n$/g, "")
       .replace(/\n/g, `\n  `);
     const sourceDirectory = showSourceDirectory ? chalk.grey(` (in ${currentCommand.directory})`) : "";
-    result.push(`${chalk.green(commandName)} ${sourceDirectory}:\n  ${description}`);
+    result.push(`${chalk.green(commandName)}${sourceDirectory}:\n  ${description}`);
   });
 
   print(result.join(`\n`));

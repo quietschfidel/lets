@@ -68,8 +68,8 @@ describe("runCommand", () => {
 
     process.argv = [
       "ignoredBecauseThisIsUsuallyTheNodePath",
-      "ignoredBecauseThisIsUsuallyTheNameOfThePCSExecutable",
-      "ignoredBecauseThisIsUsuallyTheNameOfThePCSCommandToRun",
+      "ignoredBecauseThisIsUsuallyTheNameOfTheExecutable",
+      "ignoredBecauseThisIsUsuallyTheNameOfTheCommandToRun",
       "firstRealParameter",
       "secondRealParameter"
     ];
