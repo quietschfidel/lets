@@ -21,6 +21,9 @@ commands:
       bash -c 'read -p"Please type some text: " myVariable && echo "You typed \"${myVariable}\""'
       echo "If you can see this we've confirmed that the instruction after the interactive command is also run..."
     description: A command that reads and displays some user input and then runs a second instruction.
+  testCommand_greet:
+    run: ./testScripts/greeter.sh
+    description: Greets the person passed in as the first parameter
   testCommand__UseParameters:
     run: ./testScripts/listParameters.sh
     description: |
