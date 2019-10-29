@@ -1,10 +1,11 @@
 {
-  "name": "@tklae/project-cheat-sheet",
+  "name": "@tklae/lets",
   "version": "0.0.1",
   "description": "",
   "dependencies": {
     "chalk": "^2.4.2",
     "js-yaml": "^3.13.1",
+    "semver": "^6.3.0",
     "tabtab": "^3.0.2"
   },
   "bin": {

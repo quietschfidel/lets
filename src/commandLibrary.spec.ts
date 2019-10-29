@@ -1,5 +1,5 @@
 import {CommandLibrary} from "./commandLibrary";
-import {Command, Commands, YamlConfiguration, YamlConfigurations} from "./interfaces";
+import {YamlConfigurations} from "./interfaces";
 
 let yamlConfigurations: YamlConfigurations;
 let commandLibrary: CommandLibrary;
@@ -22,6 +22,34 @@ beforeAll(() => {
     }
   };
   commandLibrary = new CommandLibrary(yamlConfigurations);
+});
+
+describe("create command library", () => {
+  test("should extract the highest expected application version from the configurations", () => {
+    const yamlConfigurationsWithVersions: YamlConfigurations = {
+      configuration1: {
+        minVersion: "0.0.1",
+        commands: {}
+      },
+      configuration2: {
+        minVersion: "1.2.3",
+        commands: {}
+      },
+      configuration3: {
+        minVersion: "super invalid semantic version",
+        commands: {}
+      },
+      configuration4: {
+        commands: {}
+      },
+      configuration5: {
+        minVersion: "98.100.400",
+        commands: {}
+      },
+    };
+    const minVersionCommandLibrary = new CommandLibrary(yamlConfigurationsWithVersions);
+    expect(minVersionCommandLibrary.getMinimumExpectedApplicationVersion()).toBe("98.100.400");
+  });
 });
 
 describe("getAllCommands", () => {

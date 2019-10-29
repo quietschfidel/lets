@@ -1,15 +1,18 @@
 #!/usr/bin/env node
+import * as semver from "semver";
 import {CommandLibrary} from "./commandLibrary";
 import {runCommand} from "./commandRunner";
 import * as configurationReader from "./configurationReader";
-import {print, printError, printList} from "./consolePrinter";
+import {print, printError, printList, printUpdateInstructions} from "./consolePrinter";
 import * as fileUtils from "./fileUtils";
-import {showAllCommands, showHelp} from "./help";
+import {showAllCommands} from "./help";
 import {YamlConfigurations} from "./interfaces";
 import {handleTabCompletion} from "./tabCompleter";
 
 export async function run(userInput: string) {
   const commandLibrary = loadCommandsOrQuit();
+
+  checkVersionIsUpToDate(commandLibrary.getMinimumExpectedApplicationVersion());
 
   // tab completion will stop here until it's completely finished and then call lets again
   await handleTabCompletion(userInput, commandLibrary);
@@ -47,7 +50,12 @@ function loadCommandsOrQuit(): CommandLibrary {
     return new CommandLibrary(configurations);
   } else {
     process.exit();
-    // throw new Error(`Could not find any configuration files called ${configurationFilename} in the directory tree.
-    // Please see the project's Readme for instructions`);
+  }
+}
+
+function checkVersionIsUpToDate(minimumExpectedApplicationVersion) {
+  const currentApplicationVersion = process.env.npm_package_version;
+  if (semver.lt(currentApplicationVersion, minimumExpectedApplicationVersion)) {
+    printUpdateInstructions(minimumExpectedApplicationVersion, () => process.exit(1));
   }
 }

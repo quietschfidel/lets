@@ -3,6 +3,7 @@ export interface YamlConfigurations {
 }
 
 export interface YamlConfiguration {
+  readonly minVersion?: string;
   readonly commands: Commands;
 }
 

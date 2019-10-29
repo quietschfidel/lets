@@ -1,3 +1,4 @@
+minVersion: 0.0.1
 commands:
   build:
     run: pnpm run build

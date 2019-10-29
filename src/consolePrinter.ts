@@ -33,3 +33,11 @@ export function printCommands(commands: CommandsWithMetadata, showSourceDirector
 
   print(result.join(`\n`));
 }
+
+export function printUpdateInstructions(expectedApplicationVersion: string, callback: () => void): void {
+  const updateInstructions: string[] = [];
+  updateInstructions.push(`Your configuration files require at least version ${expectedApplicationVersion} of 'lets'`);
+  updateInstructions.push("Update by running 'npm i -g @tklae/lets'");
+  printError(updateInstructions.join(`\n`));
+  callback();
+}
