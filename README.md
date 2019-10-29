@@ -61,7 +61,7 @@ In a more real world example, you would hide your technology specific commands b
 We could then create the following configuration files to be able to run the same commands
 in all three folders:
 
-`.lets.yml` in `~/yourProject/backend:
+`.lets.yml` in `~/yourProject/backend`:
 ```yaml
 commands:
     install:
@@ -75,7 +75,7 @@ commands:
       description: Start the backend
 ```
 
-`.lets.yml` in `~/yourProject/frontend:
+`.lets.yml` in `~/yourProject/frontend`:
 ```yaml
 commands:
     install:
@@ -89,7 +89,7 @@ commands:
       description: Start the frontend
 ```
 
-`.lets.yml` in `~/yourProject:
+`.lets.yml` in `~/yourProject`:
 ```yaml
 commands:
     install:
@@ -179,18 +179,18 @@ of the [package.json](./package.json).
 
 ### Typical development workflow
 
-- `git pull --rebase`
-- `pnpm run build` includes linting and running tests to make sure everything you 
+1. `git pull --rebase`
+1. `pnpm run build` includes linting and running tests to make sure everything you 
 checked out is up and running.
-- Make your additions/changes to code and tests
-- `pnpm run build` to continuously run everything or just `pnpm run test`/`pnpm run lint` 
+1. Make your additions/changes to code and tests
+1. `pnpm run build` to continuously run everything or just `pnpm run test`/`pnpm run lint` 
 for tests or linting
-- `pnpm run start -- <command>` to test running a command that has to be present in the
+1. `pnpm run start -- <command>` to test running a command that has to be present in the
 [.lets.yml](./.lets.yml)
-- `pnpm link` to "install" lets as a command line tool with the current state. Make sure to
+1 `npm link` to "install" lets as a command line tool with the current state. Make sure to
 reload your terminal/open a new terminal for the changes to be effective.
-- `pnpm unlink` to remove the link to the current executable (!Currently does not work, see 
-[this bug report](https://github.com/pnpm/pnpm/issues/1584) for details).
+1 `npm unlink` to remove the link to the current executable (!We're using npm on purpose here as
+pnpm currently does not unlink correctly, see [this bug report](https://github.com/pnpm/pnpm/issues/1584) for details).
 
 ## Contributors
 Big thanks to [Christoph Stickel](https://github.com/mixer2) who had the original
