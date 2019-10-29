@@ -1,32 +1,47 @@
 {
-  "name": "@tklae/lets",
-  "version": "0.0.1",
-  "description": "",
-  "dependencies": {
-    "chalk": "^2.4.2",
-    "js-yaml": "^3.13.1",
-    "semver": "^6.3.0",
-    "tabtab": "^3.0.2"
-  },
-  "bin": {
-    "lets": "./dist/cli.js"
-  },
-  "scripts": {
-    "build": "npm run lint && npm run test && npx tsc",
-    "start": "npm run build && node ./dist/cli.js",
-    "test": "jest",
-    "test:debug": "node --inspect node_modules/.bin/jest --runInBand",
-    "lint": "tslint -c tslint.json 'src/**/*.ts'"
-  },
-  "devDependencies": {
-    "@types/jest": "^24.0.19",
-    "@types/node": "^12.7.12",
-    "babel-jest": "^24.9.0",
-    "jest": "^24.9.0",
-    "mock-fs": "^4.10.1",
-    "ts-jest": "^24.1.0",
-    "tslint": "^5.20.0",
-    "typescript": "^3.6.3",
-    "uuid": "^3.3.3"
-  }
+	"name": "@tklae/lets",
+	"version": "0.0.1",
+	"description": "A command unifier for multi-stack projects",
+	"homepage": "https://github.com/tklae/lets#readme",
+	"repository": "github:tklae/lets",
+	"license": "SEE LICENSE IN <LICENSE>",
+	"contributors": [
+		"tklae (https://github.com/tklae)",
+		"mixer2 (https://github.com/mixer2)"
+	],
+	"bin": {
+		"lets": "./dist/cli.js"
+	},
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "pnpm run lint && pnpm run test && pnpm run clean && pnpx tsc",
+		"start": "pnpm run build && node ./dist/cli.js",
+		"clean": "rm -f ./dist/*",
+		"test": "jest",
+		"test:debug": "node --inspect node_modules/.bin/jest --runInBand",
+		"lint": "tslint -c tslint.json 'src/**/*.ts'",
+		"prepublishOnly": "pnpm run build"
+	},
+	"dependencies": {
+		"chalk": "^2.4.2",
+		"js-yaml": "^3.13.1",
+		"semver": "^6.3.0",
+		"tabtab": "^3.0.2"
+	},
+	"devDependencies": {
+		"@types/jest": "^24.0.19",
+		"@types/node": "^12.7.12",
+		"babel-jest": "^24.9.0",
+		"jest": "^24.9.0",
+		"mock-fs": "^4.10.1",
+		"ts-jest": "^24.1.0",
+		"tslint": "^5.20.0",
+		"typescript": "^3.6.3",
+		"uuid": "^3.3.3"
+	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org"
+	}
 }

@@ -16,7 +16,26 @@ We therefore want to provide an easy way to provide the possible commands to run
 folder.
 
 ## Installation instructions
--> TODO: Will be added after first upload to npm repo
+`lets` is intended to be installed globally via
+```shell script
+npm i -g @tklae/lets
+```
+
+Then, to get help and all possible commands, just run
+```shell script
+lets help
+```
+
+### Adding/Removing tab completion
+`lets` supports the possibility of auto-completing your input with the commands defined within
+your config files. To add and remove the tab completion, simple run
+```shell script
+lets add-tab-completion
+```
+or
+```shell script
+lets remove-tab-completion
+```
 
 ## Configuration examples
 In the simplest form, just create a file called `.lets.yml` in your project's root directory.
