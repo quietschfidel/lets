@@ -4,21 +4,21 @@
 	"description": "A command unifier for multi-stack projects",
 	"homepage": "https://github.com/tklae/lets#readme",
 	"repository": "github:tklae/lets",
-	"license": "SEE LICENSE IN <LICENSE>",
+	"license": "MIT",
 	"contributors": [
 		"tklae (https://github.com/tklae)",
 		"mixer2 (https://github.com/mixer2)"
 	],
 	"bin": {
-		"lets": "./dist/cli.js"
+		"lets": "./dist/src/cli.js"
 	},
 	"files": [
 		"dist"
 	],
 	"scripts": {
 		"build": "pnpm run lint && pnpm run test && pnpm run clean && pnpx tsc",
-		"start": "pnpm run build && node ./dist/cli.js",
-		"clean": "rm -f ./dist/*",
+		"start": "pnpm run build && node ./dist/src/cli.js",
+		"clean": "rm -rf ./dist/*",
 		"test": "jest",
 		"test:debug": "node --inspect node_modules/.bin/jest --runInBand",
 		"lint": "tslint -c tslint.json 'src/**/*.ts'",

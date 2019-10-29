@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import * as semver from "semver";
+import {version as currentApplicationVersion} from "../package.json";
 import {CommandLibrary} from "./commandLibrary";
 import {runCommand} from "./commandRunner";
 import * as configurationReader from "./configurationReader";
@@ -54,7 +55,6 @@ function loadCommandsOrQuit(): CommandLibrary {
 }
 
 function checkVersionIsUpToDate(minimumExpectedApplicationVersion) {
-  const currentApplicationVersion = process.env.npm_package_version;
   if (semver.lt(currentApplicationVersion, minimumExpectedApplicationVersion)) {
     printUpdateInstructions(minimumExpectedApplicationVersion, () => process.exit(1));
   }
