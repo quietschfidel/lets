@@ -4,13 +4,17 @@ import {runCommand} from "./commandRunner";
 import * as configurationReader from "./configurationReader";
 import {print, printError, printList, printParsingFailedInstructions} from "./consolePrinter";
 import * as fileUtils from "./fileUtils";
-import {showAllCommands} from "./help";
+import {showAllCommands, showHelp} from "./help";
 import {YamlConfigurations} from "./interfaces";
 import {handleTabCompletion} from "./tabCompleter";
 
 export const configurationFilename = ".lets.yml";
 
 export async function run(userInput: string) {
+  if (userInput === "help") {
+    showHelp();
+  }
+
   const commandLibrary = loadCommandsOrQuit();
 
   checkConfigParsingSuccessful(commandLibrary.getUnparseableConfigFiles());

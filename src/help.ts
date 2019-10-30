@@ -16,8 +16,6 @@ export function showHelp() {
 }
 
 export function showAllCommands(commandLibrary: CommandLibrary): void {
-  showHelp();
-
   print("Available commands:");
   printCommands(commandLibrary.getAllCommands());
 }
