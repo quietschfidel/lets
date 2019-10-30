@@ -4,7 +4,7 @@ import {print, printCommands} from "./consolePrinter";
 
 export function showHelp() {
   const helpText: string[] = [];
-  helpText.push(chalk.bold("\nProject Cheat Sheet"));
+  helpText.push(chalk.bold("\nLets - a command unifier"));
 
   helpText.push("How to use:");
   helpText.push("  lets <command>");

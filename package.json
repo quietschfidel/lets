@@ -10,7 +10,7 @@
 		"mixer2 (https://github.com/mixer2)"
 	],
 	"bin": {
-		"lets": "./dist/src/cli.js"
+		"lets": "./dist/cli.js"
 	},
 	"files": [
 		"dist"
@@ -27,7 +27,7 @@
 	"dependencies": {
 		"chalk": "^2.4.2",
 		"js-yaml": "^3.13.1",
-		"semver": "^6.3.0",
+		"jsonschema": "^1.2.4",
 		"tabtab": "^3.0.2"
 	},
 	"devDependencies": {

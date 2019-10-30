@@ -1,19 +1,19 @@
 #!/usr/bin/env node
-import * as semver from "semver";
-import {version as currentApplicationVersion} from "../package.json";
 import {CommandLibrary} from "./commandLibrary";
 import {runCommand} from "./commandRunner";
 import * as configurationReader from "./configurationReader";
-import {print, printError, printList, printUpdateInstructions} from "./consolePrinter";
+import {print, printError, printList, printParsingFailedInstructions} from "./consolePrinter";
 import * as fileUtils from "./fileUtils";
 import {showAllCommands} from "./help";
 import {YamlConfigurations} from "./interfaces";
 import {handleTabCompletion} from "./tabCompleter";
 
+export const configurationFilename = ".lets.yml";
+
 export async function run(userInput: string) {
   const commandLibrary = loadCommandsOrQuit();
 
-  checkVersionIsUpToDate(commandLibrary.getMinimumExpectedApplicationVersion());
+  checkConfigParsingSuccessful(commandLibrary.getUnparseableConfigFiles());
 
   // tab completion will stop here until it's completely finished and then call lets again
   await handleTabCompletion(userInput, commandLibrary);
@@ -40,8 +40,6 @@ export async function run(userInput: string) {
 }
 
 function loadCommandsOrQuit(): CommandLibrary {
-  const configurationFilename = ".lets.yml";
-
   const configurationFilepaths: string[] =
     fileUtils.onlyDirectoriesContainingFile(
       configurationFilename, fileUtils.resolveParents(
@@ -54,8 +52,8 @@ function loadCommandsOrQuit(): CommandLibrary {
   }
 }
 
-function checkVersionIsUpToDate(minimumExpectedApplicationVersion) {
-  if (semver.lt(currentApplicationVersion, minimumExpectedApplicationVersion)) {
-    printUpdateInstructions(minimumExpectedApplicationVersion, () => process.exit(1));
+function checkConfigParsingSuccessful(unparseableConfigFiles: string[]) {
+  if (unparseableConfigFiles.length > 0) {
+    printParsingFailedInstructions(unparseableConfigFiles, () => process.exit(1));
   }
 }

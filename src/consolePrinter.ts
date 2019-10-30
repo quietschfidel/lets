@@ -1,5 +1,6 @@
 import chalk from "chalk";
 import {CommandsWithMetadata} from "./interfaces";
+import {configurationFilename} from "./main";
 
 export function print(text: string, chalkModifier?: (text: string) => void): void {
   console.log(chalkModifier === undefined ? text : chalkModifier(text));
@@ -34,10 +35,13 @@ export function printCommands(commands: CommandsWithMetadata, showSourceDirector
   print(result.join(`\n`));
 }
 
-export function printUpdateInstructions(expectedApplicationVersion: string, callback: () => void): void {
+export function printParsingFailedInstructions(unparseableConfigs: string[], callback: () => void): void {
   const updateInstructions: string[] = [];
-  updateInstructions.push(`Your configuration files require at least version ${expectedApplicationVersion} of 'lets'`);
-  updateInstructions.push("Update by running 'npm i -g @tklae/lets'");
+  updateInstructions.push("Your configuration files could not be parsed successfully. Please check these files for errors:");
+  unparseableConfigs.forEach((configPath) => {
+    updateInstructions.push(`  -${configPath}/${configurationFilename}`);
+  });
+  updateInstructions.push("\nIf all configs seem correct you can also try updating 'lets' by running 'npm i -g @tklae/lets'");
   printError(updateInstructions.join(`\n`));
   callback();
 }

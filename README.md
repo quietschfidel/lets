@@ -147,17 +147,6 @@ Note that we usually don't recommend passing parameters as the goal of the tool 
 simplify the development workflow. If people now have to remember which parameters are
 valid for which command, the helpfulness of the tool is quite questionable.
 
-### Versioning the configuration
-To make sure your configuration files adhere to the supported schema of everybody's version of `lets`, 
-we recommend putting the expected application version at the top of each config file like this:
-```yaml
-minVersion: 0.0.1
-commands: ...
-```
-This way, we can ensure that the layout of the configuration file can be run by a specific version
-of `lets`. If somebody's version of `lets` is below the minimum version in one of the config files,
-we show a message about how to update to the latest version.
-
 ## Development setup
 We're always happy about people contributing to this project and this section aims to explain
 how to do that.

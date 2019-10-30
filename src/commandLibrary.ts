@@ -1,14 +1,19 @@
-import * as semver from "semver";
-import {CommandSearchResult, CommandsWithMetadata, CommandWithMetadata, YamlConfigurations} from "./interfaces";
+import {
+  CommandSearchResult,
+  CommandsWithMetadata,
+  CommandWithMetadata,
+  YamlConfigurations
+} from "./interfaces";
+import {SchemaValidator} from "./schemaValidator";
 
 export class CommandLibrary {
   private yamlConfigurations: YamlConfigurations;
   private allCommands: CommandsWithMetadata;
-  private minExpectedApplicationVersion: string;
+  private unparseableConfigFiles: string[];
 
   constructor(yamlConfigurations: YamlConfigurations) {
     this.yamlConfigurations = yamlConfigurations;
-    this.minExpectedApplicationVersion = semver.clean("0.0.0"); // semver can't handle just 0 ;-(
+    this.unparseableConfigFiles = [];
     this.allCommands = this.getAllCommands();
   }
 
@@ -16,21 +21,22 @@ export class CommandLibrary {
     // lazy loading to only go through all configurations once
     if (this.allCommands === undefined) {
       const commands: CommandsWithMetadata = {};
+      const schemaValidator: SchemaValidator = new SchemaValidator();
       Object.entries(this.yamlConfigurations).forEach(([directoryName, yamlConfiguration]) => {
-        if (yamlConfiguration.minVersion && semver.valid(yamlConfiguration.minVersion)
-            && semver.lt(this.minExpectedApplicationVersion, yamlConfiguration.minVersion)) {
-          this.minExpectedApplicationVersion = semver.clean(yamlConfiguration.minVersion);
+        if (schemaValidator.isValid(yamlConfiguration)) {
+          Object.entries(yamlConfiguration.commands).forEach(([commandName, command]) => {
+            if (commands[commandName] === undefined) {
+              commands[commandName] = {
+                name: commandName,
+                run: command.run,
+                description: command.description,
+                directory: directoryName
+              };
+            }
+          });
+        } else {
+          this.unparseableConfigFiles.push(directoryName);
         }
-        Object.entries(yamlConfiguration.commands).forEach(([commandName, command]) => {
-          if (commands[commandName] === undefined) {
-            commands[commandName] = {
-              name: commandName,
-              run: command.run,
-              description: command.description,
-              directory: directoryName
-            };
-          }
-        });
       });
       this.allCommands = commands;
     }
@@ -58,7 +64,7 @@ export class CommandLibrary {
     return exactMatch !== undefined ? {exactMatch} : {suggestions};
   }
 
-  public getMinimumExpectedApplicationVersion() {
-    return this.minExpectedApplicationVersion;
+  public getUnparseableConfigFiles(): string[] {
+    return this.unparseableConfigFiles;
   }
 }

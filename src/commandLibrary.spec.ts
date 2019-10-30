@@ -25,30 +25,37 @@ beforeAll(() => {
 });
 
 describe("create command library", () => {
-  test("should extract the highest expected application version from the configurations", () => {
+  test("should tell if all configs were valid when reading them", () => {
     const yamlConfigurationsWithVersions: YamlConfigurations = {
       configuration1: {
-        minVersion: "0.0.1",
         commands: {}
       },
       configuration2: {
-        minVersion: "1.2.3",
-        commands: {}
+        commands: {
+          someCommand1: {run: "anything", description: "This is the best command"},
+        }
+      }
+    };
+    const schemaVersionCommandLibrary = new CommandLibrary(yamlConfigurationsWithVersions);
+    expect(schemaVersionCommandLibrary.getUnparseableConfigFiles().length).toBe(0);
+  });
+  test("should tell if at least one configs was invalid when reading them", () => {
+    const yamlConfigurationsWithVersions: object = {
+      configuration1: {
+        commandss: {}
+      },
+      configuration2: {
+        commands: {
+          someCommand1: {rrun: "anything", description: "This is the best command"},
+        }
       },
       configuration3: {
-        minVersion: "super invalid semantic version",
-        commands: {}
-      },
-      configuration4: {
-        commands: {}
-      },
-      configuration5: {
-        minVersion: "98.100.400",
         commands: {}
       },
     };
-    const minVersionCommandLibrary = new CommandLibrary(yamlConfigurationsWithVersions);
-    expect(minVersionCommandLibrary.getMinimumExpectedApplicationVersion()).toBe("98.100.400");
+    const schemaVersionCommandLibrary = new CommandLibrary(yamlConfigurationsWithVersions as YamlConfigurations);
+    expect(schemaVersionCommandLibrary.getUnparseableConfigFiles().length).toBe(2);
+    expect(schemaVersionCommandLibrary.getUnparseableConfigFiles()).toStrictEqual(["configuration1", "configuration2"]);
   });
 });
 
