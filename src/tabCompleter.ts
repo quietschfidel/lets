@@ -3,7 +3,7 @@ import {CommandLibrary} from "./commandLibrary";
 
 const internalCommands = ["help", "add-tab-completion", "remove-tab-completion"];
 
-export async function handleTabCompletion(userInput: string, commandLibrary: CommandLibrary) {
+export async function handleTabCompletion(userInput: string, commandLibrary: CommandLibrary): Promise<void> {
   const env = tabtab.parseEnv(process.env);
 
   if (env.complete === true) {

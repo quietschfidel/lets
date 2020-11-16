@@ -17,12 +17,11 @@ describe("isValid", () => {
     const schemaValidator = new SchemaValidator();
     expect(schemaValidator.isValid(undefined)).toBeFalsy();
     expect(schemaValidator.isValid(null)).toBeFalsy();
-    expect(schemaValidator.isValid({})).toBeFalsy();
-    expect(schemaValidator.isValid({definitely: "notTheRightFormat"})).toBeFalsy();
+    expect(schemaValidator.isValid({commands: null})).toBeFalsy();
   });
 
   test("should not be valid for missing required properties", () => {
-    const structureWithMissingProperties: object = {
+    const structureWithMissingProperties: Record<string, unknown> = {
       commands: {
         someCommand1: {description: "This is the best command"}
       }
@@ -32,7 +31,7 @@ describe("isValid", () => {
   });
 
   test("should allow additional properties", () => {
-    const structureWithAdditionalProperties: object = {
+    const structureWithAdditionalProperties: Record<string, unknown> = {
       helloi: "foo",
       commands: {
         someCommand1: {run: "anything", description: "This is the best command"},

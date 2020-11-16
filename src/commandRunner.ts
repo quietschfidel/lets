@@ -1,7 +1,7 @@
 import {spawnSync} from "child_process";
 import {CommandWithMetadata} from "./interfaces";
 
-export async function runCommand(command: CommandWithMetadata) {
+export async function runCommand(command: CommandWithMetadata): Promise<void> {
   let listOfInstructions = command.run || [];
   if (typeof listOfInstructions === "string") {
     listOfInstructions = [listOfInstructions];

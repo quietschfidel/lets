@@ -1,4 +1,3 @@
-import * as fs from "fs";
 import * as mockfs from "mock-fs";
 import * as configurationReader from "./configurationReader";
 import {YamlConfiguration, YamlConfigurations} from "./interfaces";

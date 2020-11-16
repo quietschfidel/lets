@@ -1,4 +1,5 @@
 import * as jsonschema from "jsonschema";
+import {YamlConfiguration} from "./interfaces";
 
 export class SchemaValidator {
   private configurationSchema = {
@@ -38,7 +39,7 @@ export class SchemaValidator {
     this.validator.addSchema(this.commandSchema, "/commandSchema");
   }
 
-  public isValid(structureToValidate: object): boolean {
+  public isValid(structureToValidate: YamlConfiguration | Record<string, unknown>): boolean {
     if (structureToValidate) {
       const validatorResult = this.validator.validate(structureToValidate, this.configurationSchema);
       return validatorResult.valid;

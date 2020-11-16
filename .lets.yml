@@ -24,9 +24,9 @@ commands:
   testCommand_greet:
     run: ./testScripts/greeter.sh
     description: Greets the person passed in as the first parameter
-  testCommand__UseParameters:
+  testCommand_UseParameters:
     run: ./testScripts/listParameters.sh
     description: |
       A command that calls another script which lists all parameters passed into it. Can be used to verify that
       parameters passed into lets are properly passed onwards into scripts. Example call:
-      'lets testCommand_UserParameters parameter1 parameter2'
+      'lets testCommand_UseParameters parameter1 parameter2'

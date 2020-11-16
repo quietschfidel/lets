@@ -40,7 +40,7 @@ describe("create command library", () => {
     expect(schemaVersionCommandLibrary.getUnparseableConfigFiles().length).toBe(0);
   });
   test("should tell if at least one configs was invalid when reading them", () => {
-    const yamlConfigurationsWithVersions: object = {
+    const yamlConfigurationsWithVersions: Record<string, unknown> = {
       configuration1: {
         commandss: {}
       },

@@ -1,4 +1,4 @@
-import chalk from "chalk";
+import * as chalk from "chalk";
 import {CommandsWithMetadata} from "./interfaces";
 import {configurationFilename} from "./main";
 
@@ -10,7 +10,7 @@ export function printSuccess(text: string): void {
   print(text, chalk.green);
 }
 
-export function printError(text: string, error?: any): void {
+export function printError(text: string, error?: unknown): void {
   console.error(error ? chalk.red(text, error) : chalk.red(text));
 }
 

@@ -10,7 +10,7 @@ import {handleTabCompletion} from "./tabCompleter";
 
 export const configurationFilename = ".lets.yml";
 
-export async function run(userInput: string) {
+export async function run(userInput: string): Promise<void> {
   if (userInput === "help") {
     showHelp();
   }

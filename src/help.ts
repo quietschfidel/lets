@@ -1,8 +1,8 @@
-import chalk from "chalk";
+import * as chalk from "chalk";
 import {CommandLibrary} from "./commandLibrary";
 import {print, printCommands} from "./consolePrinter";
 
-export function showHelp() {
+export function showHelp(): void {
   const helpText: string[] = [];
   helpText.push(chalk.bold("\nLets - a command unifier"));
 
